@@ -38,6 +38,9 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False, verbose_name="Active Status")
 
+    class Meta:
+        verbose_name_plural = 'Quizzes'
+
     def __str__(self) -> str:
         return f"{self.title}"
 
