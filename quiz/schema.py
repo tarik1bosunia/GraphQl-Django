@@ -29,9 +29,33 @@ class AnswerType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    quiz = graphene.String()
+    # quiz = graphene.String()
 
-    all_quizzes = DjangoListField(QuizType)
+    # all_quizzes = DjangoListField(QuizType)
+    #
+    # def reslove_all_quizzes(root, info):
+    #     return Quiz.objects.filter(id=1)
+
+    # quizzes = graphene.List(QuizType)
+    # quiz_by_id = graphene.Field(QuizType, id=graphene.Int())
+    #
+    # def resolve_quizzes(root, info, **kwargs):
+    #     return Quiz.objects.all()
+    #
+    # def resolve_quiz_by_id(root, info, id):
+    #     # Querying a single question
+    #     return Quiz.objects.get(pk=id)
+
+    question_all = graphene.List(QuestionType)
+    question_by_id = graphene.Field(QuestionType, id=graphene.Int())
+    answer_list_by_question_id = graphene.List(AnswerType, questionId=graphene.Int())
+
+    def resolve_question_by_id(root, info, id):
+        return Question.objects.get(pk=id)
+
+    def resolve_answer_list_by_question_id(root, info, questionId):
+        # Querying a single question
+        return Answer.objects.filter(question=questionId)
 
 
 schema = graphene.Schema(query=Query)
